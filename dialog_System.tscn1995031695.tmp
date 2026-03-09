@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://cb2qeh0ro8vw2"]
+
+[ext_resource type="Script" uid="uid://bowrqca6gony2" path="res://dialog_system.gd" id="1_tur4o"]
+
+[node name="DialogSystem" type="CanvasLayer" unique_id=1613724199]
+script = ExtResource("1_tur4o")
+
+[node name="Convo_Box" type="PanelContainer" parent="." unique_id=1314745485]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -466.0
+offset_top = -147.0
+offset_right = 461.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Convo_Box" unique_id=2136796651]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="npc_name" type="Label" parent="Convo_Box/VBoxContainer" unique_id=1468015976]
+unique_name_in_owner = true
+layout_mode = 2
+text = "NPC_Name:"
+
+[node name="convo" type="Label" parent="Convo_Box/VBoxContainer" unique_id=629687615]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hello there!
+This is a sample conversation message.
+Replace this text with real dialogue later."
+
+[node name="next_convo" type="Button" parent="Convo_Box/VBoxContainer" unique_id=1915351072]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "next"
+
+[node name="Q_box" type="PanelContainer" parent="." unique_id=1423879255]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Q_box" unique_id=1128957195]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="question" type="Label" parent="Q_box/VBoxContainer" unique_id=250792860]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hey, are you ready for the next round?"
+
+[node name="choicese" type="VBoxContainer" parent="Q_box/VBoxContainer" unique_id=844269065]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[connection signal="pressed" from="Convo_Box/VBoxContainer/next_convo" to="." method="_on_next_convo_pressed"]
