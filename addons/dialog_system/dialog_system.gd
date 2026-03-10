@@ -1,27 +1,42 @@
 extends CanvasLayer
 
-class_name Dialog
 
 #NPC Dialog imports
 @onready var npc: Label = %npc_name
 @onready var convo: Label = %convo
+@onready var photo: TextureRect = %photo
 
-@onready var menu_object=preload("res://menu.tscn")
+@onready var menu_object=preload("res://addons/dialog_system/menu.tscn")
 
 # convo varibles exposed to users
 var text:="":
 	set (value):
 		text=value
 		NPC_Dialog(value)
-var npc_name:="tom"
+
+var image:String:
+	set (value):
+		image=value
+		_image_changed(value)
+var npc_name:="tom":
+	set (value):
+		npc_name=value
+		NPC_Name_change(value)
 var dialogue_lines:Array=[]
 var current_line = 0
 var menu_inst:Menu
 var choicess:={}
 func _ready() -> void:
+	npc.text=npc_name
 	hide()
 
-
+func _image_changed(value):
+	var im=CompressedTexture2D.new()
+	im.load_path=value
+	photo.texture=im
+	
+func NPC_Name_change(value):
+	npc.text=value
 # Conov part *****
 func NPC_Dialog(text:String):
 	dialogue_lines.append(text)
@@ -37,6 +52,8 @@ func _on_next_convo_pressed() -> void:
 
 	
 func menu(question:String, choices:Dictionary):
+	if menu_inst:
+			menu_inst.reset()
 	choicess={"question":question,"choices":choices}
 	menu_inst=menu_object.instantiate()
 	menu_inst.choices=choicess
@@ -50,7 +67,8 @@ func reset():
 		current_line=0
 		hide()
 		dialogue_lines.clear()
-	
+		if menu_inst:
+			menu_inst.reset()
 
 func Check_for_convo():
 	current_line += 1
@@ -58,8 +76,9 @@ func Check_for_convo():
 		if dialogue_lines[current_line] is String:
 			convo.text = dialogue_lines[current_line]
 		else:
-			menu_inst.show()
-			current_line += 1
+			if menu_inst:
+				menu_inst.show()
+				current_line += 1
 
 	else:
 		reset()

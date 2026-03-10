@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c5uqldsokrm7f"]
+
+[ext_resource type="Script" uid="uid://bfh88jx0t282c" path="res://addons/dialog_system/example/npc_ellie.gd" id="3_q7s07"]
+[ext_resource type="Script" uid="uid://bw4jcjhyunvtd" path="res://addons/dialog_system/example/npc_aya.gd" id="4_rpra0"]
+
+[node name="Demo" type="CanvasLayer" unique_id=1970503655]
+
+[node name="NPC_ellie" type="Button" parent="." unique_id=673702944]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Talk to Ellie"
+script = ExtResource("3_q7s07")
+
+[node name="NPC_aya" type="Button" parent="." unique_id=838226662]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Talk to Aya"
+script = ExtResource("4_rpra0")
+
+[connection signal="pressed" from="NPC_ellie" to="NPC_ellie" method="_on_pressed"]
+[connection signal="pressed" from="NPC_aya" to="NPC_aya" method="_on_pressed"]
