@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://c5uqldsokrm7f"]
 
-[ext_resource type="Script" uid="uid://chs8rq37vv1ii" path="res://demo.gd" id="1_5hfv0"]
 [ext_resource type="PackedScene" uid="uid://byssq1ns0jd05" path="res://char1.tscn" id="2_0bhed"]
 
 [node name="Demo" type="CanvasLayer" unique_id=1970503655]
-script = ExtResource("1_5hfv0")
 
 [node name="Button" type="Button" parent="." unique_id=76848964]
 offset_right = 8.0

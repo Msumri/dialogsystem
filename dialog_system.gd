@@ -6,11 +6,7 @@ class_name Dialog
 @onready var npc: Label = %npc_name
 @onready var convo: Label = %convo
 
-#Choises import: 
-@onready var question: Label = %question
-@onready var choicese: VBoxContainer = %choicese
-@onready var q_box: PanelContainer = %Q_box
-
+@onready var menu_object=preload("res://menu.tscn")
 
 # convo varibles exposed to users
 var text:="":
@@ -20,19 +16,12 @@ var text:="":
 var npc_name:="tom"
 var dialogue_lines:Array=[]
 var current_line = 0
-
-var choices_list:={}:
-	set (value):
-		choices_list=value
-		_choices(value)
-
-
+var menu_inst:Menu
+var choicess:={}
 func _ready() -> void:
 	hide()
-	q_box.hide()
 
-func _process(delta: float) -> void:
-	print(dialogue_lines)
+
 # Conov part *****
 func NPC_Dialog(text:String):
 	dialogue_lines.append(text)
@@ -42,35 +31,35 @@ func NPC_Dialog(text:String):
 	show()
 
 func _on_next_convo_pressed() -> void:
+	Check_for_convo()
+# End of Conov part *****
+
+
+	
+func menu(question:String, choices:Dictionary):
+	choicess={"question":question,"choices":choices}
+	menu_inst=menu_object.instantiate()
+	menu_inst.choices=choicess
+	add_child(menu_inst)
+	dialogue_lines.append(choicess)
+
+	
+	
+	
+func reset():
+		current_line=0
+		hide()
+		dialogue_lines.clear()
+	
+
+func Check_for_convo():
 	current_line += 1
 	if current_line < dialogue_lines.size():
 		if dialogue_lines[current_line] is String:
 			convo.text = dialogue_lines[current_line]
 		else:
-			q_box.show()
-		
+			menu_inst.show()
+			current_line += 1
+
 	else:
 		reset()
-# End of Conov part *****
-
-func _choices(choices_text:Dictionary):
-	dialogue_lines.append(choices_text)
-	for choice in choices_text:
-		var choice_button:=Button.new()
-		var value = choices_text[choice]
-		choice_button.text=choice
-		choice_button.pressed.connect(func () -> void:
-			handle_choice(value)
-			
-		)
-		choicese.add_child(choice_button)
-	show()
-func handle_choice(opt):
-	get_parent().call(opt)
-	q_box.hide()
-
-func reset():
-	current_line=0
-	hide()
-	choices_list.clear()
-	dialogue_lines.clear()
