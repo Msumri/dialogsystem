@@ -10,6 +10,7 @@ extends CanvasLayer
 @onready var menu_object=preload("res://addons/dialog_system/menu.tscn")
 @onready var input_object=preload("res://addons/dialog_system/input.tscn")
 signal input_received(value)
+
 # convo varibles exposed to users
 var text:="":
 	set (value):
@@ -30,6 +31,8 @@ var current_line = 0
 var menu_inst:Menu
 var input_inst:Dailog_Input
 var choicess:={}
+var is_active:=false
+
 func _ready() -> void:
 	npc.text=npc_name
 	
@@ -46,7 +49,7 @@ func NPC_Dialog(text:String):
 	dialogue_lines.append(text)
 	if dialogue_lines[current_line] is String:
 		convo.text = dialogue_lines[current_line]
-	
+	is_active=true
 	show()
 
 func _on_next_convo_pressed() -> void:
@@ -82,6 +85,7 @@ func _on_user_input_change(value):
 	
 	
 func reset():
+		is_active=false
 		next_convo.disabled=false
 		current_line=0
 		hide()
