@@ -25,8 +25,9 @@ var dialog
 func _ready() -> void:
 	var dio=Dialog.new()
 	dialog=dio.start(self)
-	dialog.npc_name="ellie"
-
+	dialog.npc_name="ellie" #NPC name
+	dialog.image="image path" #NPC photo
+	
 func talk():
 	dialog.text="hello there how are you ?"
 	dialog.text="do you like apples?"
@@ -37,6 +38,9 @@ func talk():
 		})
 func yes_function():
 	dialog.text="Great I love them too"
-
+	#to add a user Input 
+	var name =await dialog.input("what is your name?")
+	dialog.text="hello "+name
+	
 func No_function():
 	dialog.text="oh they are healthy. they keep the Dr. Away"

@@ -29,6 +29,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func handle_choice(opt,choice_button:Button):
+	get_parent().next_convo.disabled=false
 	get_parent().get_parent().call(opt)
 	reset()
 	

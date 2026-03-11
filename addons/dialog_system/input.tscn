@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bxfrdbt2d1y18"]
+
+[ext_resource type="Script" uid="uid://diyfkadu0l0wk" path="res://addons/dialog_system/input.gd" id="1_ius6a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ko2na"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0.36862746)
+
+[node name="Input" type="PanelContainer" unique_id=1015309725]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -253.0
+offset_top = -161.0
+offset_right = 255.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ko2na")
+script = ExtResource("1_ius6a")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=137924228]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1139403505]
+unique_name_in_owner = true
+layout_mode = 2
+text = "What is your name ?"
+
+[node name="yourinput" type="LineEdit" parent="VBoxContainer" unique_id=1615217881]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "user input"
+
+[node name="submit" type="Button" parent="VBoxContainer" unique_id=1972393599]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Submit"
+
+[connection signal="text_changed" from="VBoxContainer/yourinput" to="." method="_on_yourinput_text_changed"]
+[connection signal="text_submitted" from="VBoxContainer/yourinput" to="." method="_on_yourinput_text_submitted"]
+[connection signal="pressed" from="VBoxContainer/submit" to="." method="_on_submit_pressed"]

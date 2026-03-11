@@ -1,25 +1,55 @@
 [gd_scene format=3 uid="uid://c5uqldsokrm7f"]
 
-[ext_resource type="Script" path="res://addons/dialog_system/example/npc_ellie.gd" id="3_q7s07"]
-[ext_resource type="Script" uid="uid://d2fccu6pu4qbo" path="res://addons/dialog_system/example/npc_aya.gd" id="4_rpra0"]
+[ext_resource type="Script" uid="uid://bfh88jx0t282c" path="res://addons/dialog_system/example/npc_AL.gd" id="1_n7tud"]
+
+[sub_resource type="GDScript" id="GDScript_ghs6p"]
+script/source = "extends Button
+
+
+var dialog
+func _ready() -> void:
+	var dio=Dialog.new()
+	dialog=dio.start(self)
+	dialog.npc_name=\"Saliba\"
+	dialog.image=\"res://addons/dialog_system/example/saliba.png\"
+func talk():
+	dialog.text=\"hello there how are you ?\"
+	dialog.text=\"do you like apples?\"
+	#to add a question with menu
+	dialog.menu(\"do you like apples?\", {
+			\"Yes\": \"yes_function\",
+			\"No\": \"No_function\",
+		})
+func yes_function():
+	dialog.text=\"Great I love them too\"
+
+func No_function():
+	dialog.text=\"oh they are healthy. they keep the Dr. Away\"
+
+	
+
+
+func _on_pressed() -> void:
+	talk()
+"
 
 [node name="Demo" type="CanvasLayer" unique_id=1970503655]
 
 [node name="NPC_Al" type="Button" parent="." unique_id=673702944]
-offset_left = 55.0
-offset_top = 223.0
-offset_right = 234.0
-offset_bottom = 317.0
+offset_left = 272.0
+offset_top = 218.0
+offset_right = 451.0
+offset_bottom = 312.0
 text = "Talk to Mr. AL"
-script = ExtResource("3_q7s07")
+script = ExtResource("1_n7tud")
 
 [node name="NPC_saliba" type="Button" parent="." unique_id=838226662]
 offset_left = 614.0
 offset_top = 226.0
 offset_right = 805.0
 offset_bottom = 323.0
-text = "Talk to Aya"
-script = ExtResource("4_rpra0")
+text = "Talk to Saliba"
+script = SubResource("GDScript_ghs6p")
 
 [connection signal="pressed" from="NPC_Al" to="NPC_Al" method="_on_pressed"]
 [connection signal="pressed" from="NPC_saliba" to="NPC_saliba" method="_on_pressed"]
