@@ -12,9 +12,13 @@ func _ready() -> void:
 	dialog=dio.start(self)
 	dialog.npc_name=\"Saliba\"
 	dialog.image=\"res://addons/dialog_system/example/saliba.png\"
+	
 func talk():
+	
 	dialog.text=\"hello there how are you ?\"
+	dialog.sound=\"res://addons/dialog_system/coin.mp3\"
 	dialog.text=\"do you like apples?\"
+	
 	#to add a question with menu
 	dialog.menu(\"do you like apples?\", {
 			\"Yes\": \"yes_function\",
@@ -22,11 +26,13 @@ func talk():
 		})
 func yes_function():
 	dialog.text=\"Great I love them too\"
+	dialog.sound=\"res://addons/dialog_system/coin.mp3\"
+	
 
 func No_function():
+	dialog.sound=\"res://addons/dialog_system/coin.mp3\"
 	dialog.text=\"oh they are healthy. they keep the Dr. Away\"
 
-	
 
 
 func _on_pressed() -> void:

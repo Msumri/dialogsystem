@@ -6,6 +6,8 @@ func _ready() -> void:
 	var dio=Dialog.new()
 	dialog=dio.start(self)
 	dialog.npc_name="Mr. AL"
+	dialog.show_one_char_at_a_time=true
+	dialog.background="res://addons/dialog_system/bg.png"
 
 func talk():
 	dialog.text="hello there how are you ?"
@@ -27,10 +29,9 @@ func yes_function():
 			"No": "No_function",
 		})
 	dialog.text="hello "+name
-
+	
 func No_function():
 	dialog.text="oh they are healthy. and amazing !"
-
 	
 
 

@@ -3,19 +3,31 @@ extends CanvasLayer
 
 #NPC Dialog imports
 @onready var npc: Label = %npc_name
-@onready var convo: Label = %convo
+@onready var convo: RichTextLabel = %convo
 @onready var photo: TextureRect = %photo
 @onready var next_convo: Button = %next_convo
+@onready var bg: TextureRect = %bg
+@onready var sound_tool: AudioStreamPlayer = %sound
 
 @onready var menu_object=preload("res://addons/dialog_system/menu.tscn")
 @onready var input_object=preload("res://addons/dialog_system/input.tscn")
 signal input_received(value)
-
+signal await_convo()
+var show_one_char_at_a_time:=true
+var speed:=1.0
 # convo varibles exposed to users
 var text:="":
 	set (value):
 		text=value
 		NPC_Dialog(value)
+var background:="":
+	set (value):
+		background=value
+		change_background(value)
+var sound:="":
+	set (value):
+		sound=value
+		change_sound(value)
 var user_input:="ggg"
 
 var image:String:
@@ -37,7 +49,14 @@ func _ready() -> void:
 	npc.text=npc_name
 	
 	hide()
-
+func change_sound(value):
+	await await_convo
+	print(sound_tool.stream)
+	sound_tool.stream=load(value)
+	sound_tool.play()
+	
+func change_background(value):
+	bg.texture=load(value)
 func _image_changed(value):
 
 	photo.texture=load(value)
@@ -46,11 +65,18 @@ func NPC_Name_change(value):
 	npc.text=value
 # Conov part *****
 func NPC_Dialog(text:String):
+	
 	dialogue_lines.append(text)
 	if dialogue_lines[current_line] is String:
 		convo.text = dialogue_lines[current_line]
+		convo.visible_characters=-1
+		if show_one_char_at_a_time:
+			convo.visible_characters=0
+			var tween=create_tween()
+			tween.tween_property(convo,"visible_characters",convo.get_total_character_count(),speed)
 	is_active=true
 	show()
+	await_convo.emit()
 
 func _on_next_convo_pressed() -> void:
 	Check_for_convo()
@@ -94,11 +120,19 @@ func reset():
 			menu_inst.reset()
 
 func Check_for_convo():
+	
 	current_line += 1
 	next_convo.disabled=false
+	
 	if current_line < dialogue_lines.size():
 		if dialogue_lines[current_line] is String:
 			convo.text = dialogue_lines[current_line]
+			convo.visible_characters=-1
+			if show_one_char_at_a_time:
+				convo.visible_characters=0
+				var tween=create_tween()
+				tween.tween_property(convo,"visible_characters",convo.get_total_character_count(),speed)
+
 		else:
 			next_convo.disabled=true
 			if menu_inst :
@@ -107,5 +141,8 @@ func Check_for_convo():
 			elif input_inst:
 				input_inst.show()
 				current_line += 1
+				
+					
 	else:
 		reset()
+	await_convo.emit()
