@@ -5,7 +5,7 @@
 
 [node name="Demo" type="CanvasLayer" unique_id=1970503655]
 
-[node name="NPC_Al" type="Button" parent="." unique_id=673702944]
+[node name="NPC_Simple" type="Button" parent="." unique_id=673702944]
 offset_left = 641.0
 offset_top = 106.0
 offset_right = 820.0
@@ -13,7 +13,7 @@ offset_bottom = 200.0
 text = "Talk to Mr. AL"
 script = ExtResource("1_n7tud")
 
-[node name="NPC_saliba" type="Button" parent="." unique_id=838226662]
+[node name="NPC_more" type="Button" parent="." unique_id=838226662]
 offset_left = 614.0
 offset_top = 226.0
 offset_right = 805.0
@@ -21,5 +21,5 @@ offset_bottom = 323.0
 text = "Talk to Saliba"
 script = ExtResource("2_ghs6p")
 
-[connection signal="pressed" from="NPC_Al" to="NPC_Al" method="_on_pressed"]
-[connection signal="pressed" from="NPC_saliba" to="NPC_saliba" method="_on_pressed"]
+[connection signal="pressed" from="NPC_Simple" to="NPC_Simple" method="_on_pressed"]
+[connection signal="pressed" from="NPC_more" to="NPC_more" method="_on_pressed"]
