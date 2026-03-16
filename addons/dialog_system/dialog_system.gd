@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-
+class_name  Dialog_system
 #NPC Dialog imports
 @onready var npc: Label = %npc_name
 @onready var convo: RichTextLabel = %convo

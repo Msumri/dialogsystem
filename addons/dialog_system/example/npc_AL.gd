@@ -1,39 +1,29 @@
 extends Button
 
-
-var dialog
+var dio=Dialog.new()
+var dialog:=dio.start(self)
+var your_name	
 func _ready() -> void:
-	var dio=Dialog.new()
-	dialog=dio.start(self)
-	dialog.npc_name="Mr. AL"
-	dialog.show_one_char_at_a_time=true
-	dialog.background="res://addons/dialog_system/bg.png"
+	dialog.Character("Mr.AL", Color.RED)
 
 func talk():
-	dialog.text="hello there how are you ?"
-	dialog.text="My name is "+ dialog.npc_name
-	var name =await dialog.input("what is your name?")
-	dialog.text="hello "+name
-	dialog.text="do you like Oranges?"
-	
-	#to add a question with menu
-	dialog.menu("do you like Oranges?", {
+	dialog.bg("res://addons/dialog_system/bg.png")
+	dialog.say("hello thereRendering text one letter at a time is most commonly called the typewriter effect or typewriter animation. This technique simulates the appearance of text being typed on a typewriter or teletype machi",true,10)
+	dialog.voice("res://addons/dialog_system/coin.mp3")
+	dialog.say("my name is AL what is your name? ")
+	your_name=await dialog.input("name?")
+	dialog.say("hello "+your_name+" nice to meet you")
+	dialog.say("hI have a question for you")
+	dialog.menu("do you like apples?", {
 			"Yes": "yes_function",
 			"No": "No_function",
 		})
+	
+
 func yes_function():
-	dialog.text="Great I love them too"
-	var name =await dialog.input("what is your name?")
-	dialog.menu("do you like Oranges?", {
-			"Yes": "yes_function",
-			"No": "No_function",
-		})
-	dialog.text="hello "+name
-	
-func No_function():
-	dialog.text="oh they are healthy. and amazing !"
-	
-
-
+	dialog.image="res://addons/dialog_system/placeholder.png"
+	dialog.say("wooo 3")
+	dialog.image="res://addons/dialog_system/example/saliba.png"
+	dialog.say("woe 3")
 func _on_pressed() -> void:
 	talk()
