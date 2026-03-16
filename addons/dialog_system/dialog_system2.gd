@@ -14,13 +14,25 @@ class_name  Dialog_system2
 signal input_received(value)
 signal talking(value)
 var paused:=false
+var current_tween: Tween
+var start:=false
+var dialog_output:=[]:
+	set(value):
+		dialog_output=value
+		start_convo()
+var Characters:={
+	"default":{
+		"color":Color.WHITE,
+		"image":"res://addons/dialog_system/placeholder.png"}
+}
+
 #backward compatibility
 var text:="":
 	set(value):
 		text=value
 		old_text(value)
 #usable varibles 
-var npc_name:="AL":
+var npc_name:="":
 	set(value):
 		npc_name=value
 		changed_NPC_name(value)
@@ -30,16 +42,10 @@ var image:="":
 		image=value
 		change_image(value)
 		
-		
-var current_tween: Tween
-var start:=false
-var dialog_output:=[]:
-	set(value):
-		dialog_output=value
-		start_convo()
 
 func _ready() -> void:
 	start=true
+	npc.text=npc_name
 	hide()
 
 func start_convo():
@@ -54,18 +60,24 @@ func add_dialog(type,line):
 		dialog_output.append({type:line})
 
 func changed_NPC_name(value):
+	print(Characters.size())
+	if Characters.size()<2:
+		Character(value)
 	add_dialog("npc_name",{"name":value})
+	
+		
+		
 
 func change_image(value):
 	add_dialog("image",{"image":value})
 #Usable functions
 
-func Character(npc_name,color:Color=Color.WHITE,image:String ="res://addons/dialog_system/placeholder.png") -> Dialog_system2:
-	changed_NPC_name(npc_name)
-	change_image(image)
-	convo.add_theme_color_override("default_color",color)
-	npc.add_theme_color_override("font_color",color)
-	return self
+func Character(NPC_NAME:String,color:Color=Color.WHITE,image_avatar:String ="res://addons/dialog_system/placeholder.png")->String:
+	Characters[NPC_NAME]={
+		"color":color,
+		"image":image_avatar
+	}
+	return NPC_NAME
 func bg(url:String):
 	add_dialog("bg",{"bg":url})
 
@@ -80,13 +92,20 @@ func old_text(value):
 	add_dialog("text",{
 	"text": value,
 	"typewriter": true,
-	"speed": 1
+	"speed": 1,
 	})
-func say(text:String,typewriter:bool=true,speed:float=1 ):
+func say(text:String,NPC_name:String=npc_name,typewriter:bool=true,speed:float=30 ):
+	var current_npc=""
+	if NPC_name=="":
+		current_npc="default"
+	else :
+		current_npc=NPC_name
+	changed_NPC_name(NPC_name)
+	change_image(Characters[current_npc]["image"])
 	add_dialog("text",{
 	"text": text,
 	"typewriter": typewriter,
-	"speed": speed
+	"speed": speed,
 	})
 
 var user_input:=""
@@ -108,7 +127,9 @@ func menu(question:String, choices:Dictionary):
 
 func process_npc_name(key):
 	npc.text=key["npc_name"]["name"]
+	set_Char(key["npc_name"]["name"])
 	move_on(key)
+	
 	
 func process_image(key):
 	photo.texture=load(key["image"]["image"])
@@ -128,10 +149,12 @@ func process_voice(key):
 func process_text(key):
 	convo.text=key["text"]["text"]
 	convo.visible_characters=-1
+	
 	if key["text"]["typewriter"]:
+		var speed=convo.get_total_character_count()/key["text"]["speed"]
 		convo.visible_characters=0
 		current_tween=create_tween()
-		current_tween.tween_property(convo,"visible_characters",convo.get_total_character_count(),key["text"]["speed"])
+		current_tween.tween_property(convo,"visible_characters",convo.get_total_character_count(),speed)
 			
 func process_input(key):
 	print("working")
@@ -195,4 +218,12 @@ func _on_next_convo_pressed() -> void:
 func move_on(key):
 	dialog_output.erase(key)
 	proceed()
-	
+func set_Char(NPC_NAME):
+	print(Characters)
+	var current_npc=""
+	if NPC_NAME=="":
+		current_npc="default"
+	else :
+		current_npc=NPC_NAME	
+	convo.add_theme_color_override("default_color",Characters[current_npc]["color"])
+	npc.add_theme_color_override("font_color",Characters[current_npc]["color"])	

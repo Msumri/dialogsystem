@@ -1,10 +1,7 @@
 [gd_scene format=3 uid="uid://c5uqldsokrm7f"]
 
 [ext_resource type="Script" uid="uid://bfh88jx0t282c" path="res://addons/dialog_system/example/npc_AL.gd" id="1_n7tud"]
-
-[sub_resource type="GDScript" id="GDScript_ghs6p"]
-script/source = "extends Button
-"
+[ext_resource type="Script" uid="uid://bw4jcjhyunvtd" path="res://addons/dialog_system/example/npc_saliba.gd" id="2_ghs6p"]
 
 [node name="Demo" type="CanvasLayer" unique_id=1970503655]
 
@@ -22,7 +19,7 @@ offset_top = 226.0
 offset_right = 805.0
 offset_bottom = 323.0
 text = "Talk to Saliba"
-script = SubResource("GDScript_ghs6p")
+script = ExtResource("2_ghs6p")
 
 [connection signal="pressed" from="NPC_Al" to="NPC_Al" method="_on_pressed"]
 [connection signal="pressed" from="NPC_saliba" to="NPC_saliba" method="_on_pressed"]
