@@ -8,10 +8,13 @@ This system is designed to be **lightweight, modular, and easy to integrate** in
 
 ## Features
 
-* NPC dialogue with speaker names
+* NPC dialogue with speaker names & custom colors
 * Dialogue UI overlay using `CanvasLayer`
 * Dynamic choice menus
 * Choices can call functions in the parent scene
+* Trigger other functions (actions)
+* Change Background
+* Add sounds 
 * Easy to reuse across multiple NPCs
 * Works well for **visual novel style interactions**
 
