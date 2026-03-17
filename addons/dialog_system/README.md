@@ -20,27 +20,42 @@ This system is designed to be **lightweight, modular, and easy to integrate** in
 ## how to use 
 every NPC can have thier own Dialog system. this system will create child nodes inside the NPC Node
 you can watch this youtube video for full explaantion and example
+var dio=Dialog.new()
+var	dialo0g:=dio.start(self)
+var mral=dialog.Character("Mr.AL", Color.RED,"res://addons/dialog_system/placeholder.png")
 
-var dialog
 func _ready() -> void:
-	var dio=Dialog.new()
-	dialog=dio.start(self)
-	dialog.npc_name="ellie" #NPC name
-	dialog.image="image path" #NPC photo
+	#optional changing the speed  of the effect for all dialogs
+	dialog.typewriter_speed=10 #change the speed of text appreaing
+	dialog.typewriter=true #if false the effect will be off
+	
 	
 func talk():
-	dialog.text="hello there how are you ?"
-	dialog.text="do you like apples?"
-	#to add a question with menu
-	dialog.menu("do you like apples?", {
+	dialog.bg("res://addons/dialog_system/bg.png")
+	dialog.say("Hello there ? ",aya) #add the char name at the end to customize the color of the text and how the npc name  
+	dialog.say("my name is Aya what is your name? ",aya,false ) # the false stop the type writing effect so you can change it per line 
+	var user_name=await dialog.input("name?") #must use await if you are getting an imput
+	dialog.say("Hello "+user_name+" nice to meet you",aya)
+	dialog.say("I have a question for you",aya)
+	dialog.menu("do you like Oranges?", {
 			"Yes": "yes_function",
 			"No": "No_function",
-		})
-func yes_function():
-	dialog.text="Great I love them too"
-	#to add a user Input 
-	var name =await dialog.input("what is your name?")
-	dialog.text="hello "+name
+		}) # the first part is the function name it must match
 	
+
+func yes_function():
+	dialog.image='res://addons/dialog_system/placeholder.png' #this will change the sprite image no matter who is the speaker 
+	dialog.say("greate here you go have one",aya)
+	dialog.action("take_Orange") #trigger other function in your code to do something
+	dialog.image="" # this will retrun the image to the char image
+	dialog.voice("res://addons/dialog_system/coin.mp3")#audio plays at this point
+	dialog.say("check console",aya)
+
 func No_function():
-	dialog.text="oh they are healthy. they keep the Dr. Away"
+	dialog.say("Good im actuly Mr. AL I tricked you it was a bad orange",mral)# you can have multiple char in one convo if you want to give the npc personalites
+	
+func _on_pressed() -> void:
+	talk()
+
+func take_Orange():
+	print("Orange Added to your inventory ")
